@@ -1,0 +1,109 @@
+<!DOCTYPE html> 
+<html>
+<head>
+<meta charset="UTF-8">
+	<title>Psychic Game</title>
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+</head>
+	<body>
+		<h3>Welcome to the Psychic Game</h3>
+		<p> Guess What I'm Thinking of</p>
+		<p>Wins: <span id="player-wins"></span></p>
+		<p>Losses: <span id="player-losses"></span></p>
+		<p>Guesses: <span id="guesses-left"></span></p>
+		<p>Guesses I Made: <span id="guesses-so-far"></span></p>
+		<div id="game">
+		</div>
+		<br>
+ 
+ <script type="text/javascript">
+//Set computerguess array
+
+var	wins = 0;
+var losses = 0;
+var guessesLeft = 9;
+var guessesSoFar = "";
+
+var alphabet = [
+               "a","b","c","d","e","f","g","h","i","j","k","l","m","n","o",
+               "p","q","r","s","t","u","v","w","x","y","z"
+               ];
+
+function initGame() {
+ 	var letterIndex = Math.floor(Math.random() * alphabet.length);
+ 	console.log(letterIndex);
+ 	return alphabet[letterIndex];
+ }
+
+ var newCharacter = initGame();
+
+ function RestartGame() {
+ 	console.log("Restarting the game...")
+ 	computerChoice = initGame();
+ 	guessesSoFar = "";
+ 	guessesLeft = 9;
+
+ 	ReplaceElementContent("player-wins", wins);
+ 	ReplaceElementContent("player-losses",losses);
+ 	ReplaceElementContent("guesses-left", guessesLeft);
+ 	ReplaceElementContent("guesses-so-far","None");
+ }
+
+ function ReplaceElementContent(id, content) {
+ 	document.getElementById(id).innerHTML = content;
+ }
+
+ document.onkeyup = function(event) {
+ 	var userinput = event.key.toLowerCase();
+
+ 	// check if user input is okay 
+	if(alphabet.indexOf(userinput) === -1 ){
+		return;
+	}
+	console.log("User choose " + userinput);
+
+ 	if (guessesSoFar === "") {
+ 		guessesSoFar = userinput;
+ 	} 
+
+ 	else {
+ 	guessesSoFar = guessesSoFar + ", " + userinput;
+ 	ReplaceElementContent("guesses-so-far", guessesSoFar);
+ 	} 
+
+ 	console.log(userinput);
+
+ 	if ( newCharacter === userinput ) {
+ 		//work btch
+ 		wins++; alert("Yay you guessed it!");
+ 		RestartGame();
+ 		ReplaceElementContent("player-wins", wins);
+
+ 	} else {
+ 		guessesLeft--;
+ 		alert("No you're wrong.");
+ 		ReplaceElementContent("guesses-left", guessesLeft);
+
+ 		//Determine if the user has ran out of guesses
+ 		if (guessesLeft === 0) {
+ 			losses++;
+
+ 			ReplaceElementContent("player-losses", losses);
+
+ 			RestartGame();
+ 	}
+ }
+	}
+
+
+
+
+
+
+</script>
+</body>
+</html>
+
+	</body>
+
+</html>
